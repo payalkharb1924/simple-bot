@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+  <head>
+    <title>AI Interview Bot</title>
+
+    <style>
+      body {
+        font-family: Arial;
+        background: black;
+        color: white;
+        text-align: center;
+        padding: 20px;
+      }
+
+      input,
+      button {
+        padding: 10px;
+        margin: 5px;
+        font-size: 16px;
+      }
+
+      button {
+        background: #00ffcc;
+        border: none;
+        cursor: pointer;
+      }
+
+      #output {
+        margin-top: 20px;
+        font-size: 18px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h2>🎤 AI Interview Bot</h2>
+
+    <input id="role" placeholder="Job Role" />
+    <input id="exp" placeholder="Experience" />
+
+    <br />
+
+    <button onclick="startInterview()">Start Interview</button>
+
+    <p id="output"></p>
+
+    <script>
+      async function startInterview() {
+        let role = document.getElementById("role").value;
+        let exp = document.getElementById("exp").value;
+
+        let res = await fetch("http://127.0.0.1:8000/interview", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            role: role,
+            experience: exp,
+          }),
+        });
+
+        let data = await res.json();
+
+        document.getElementById("output").innerText = data.question;
+      }
+    </script>
+  </body>
+</html>
